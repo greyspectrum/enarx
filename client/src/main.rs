@@ -1,7 +1,7 @@
 use std::process::Command;
 
 fn main() {
-    let output = Command::new("curl")
+    Command::new("curl")
         .arg("-v")
         .arg(
             r#""https://api.trustedservices.intel.com/sgx/certification/v1/pckcrl?ca={processor}""#,
@@ -25,9 +25,6 @@ fn main() {
         .arg(r#""%b""#)
         .arg(">")
         .arg("pck_chain.pem")
-        .output()?;
-
-    if !output.status.success() {
-        error_chain::bail!("Command executed with failing error code");
-    }
+        .output()
+        .expect("failed to execute process");
 }
